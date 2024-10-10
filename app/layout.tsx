@@ -17,21 +17,21 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Jotion",
-  description: 'The connected workspace where better, faster work happens',
+  description: "The connected workspace where better, faster work happens",
   icons: {
     icon: [
       {
         media: "(prefers-color-scheme: light)",
         url: "/logo.svg",
-        href: "/logo.svg"
+        href: "/logo.svg",
       },
       {
         media: "(prefers-color-scheme: dark)",
         url: "/logo.svg",
-        href: "/logo-dark.svg"
-      }
-    ]
-  }
+        href: "/logo-dark.svg",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -55,7 +55,6 @@ export default function RootLayout({
             {children}
           </ThemeProvider>
         </ConvexReactClientProvider>
-
       </body>
     </html>
   );
