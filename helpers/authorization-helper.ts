@@ -18,7 +18,7 @@ export async function validateUserAndDocument(ctx, args) {
     throw new Error("Unauthorized");
   }
 
-  return userId;
+  return { userId, existingDocument };
 }
 
 export async function validateUser(ctx) {
