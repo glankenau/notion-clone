@@ -2,25 +2,12 @@ import { v } from "convex/values";
 
 import { mutation, query } from "./_generated/server";
 import { Doc, Id } from "./_generated/dataModel";
+import { validateUser, validateUserAndDocument } from "@/helpers/authorization-helper";
 
 export const archive = mutation({
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
-      throw new Error("Not authenticated");
-    }
-
-    const userId = identity.subject;
-
-    const existingDocument = await ctx.db.get(args.id);
-    if (!existingDocument) {
-      throw new Error("Not found");
-    }
-
-    if (existingDocument.userId !== userId) {
-      throw new Error("Unauthorized");
-    }
+    const userId = await validateUserAndDocument(ctx, args);
 
     const recursiveArchive = async (documentId: Id<"documents">) => {
       const children = await ctx.db
@@ -54,12 +41,7 @@ export const create = mutation({
     parentDocument: v.optional(v.id("documents")),
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
-      throw new Error("Not authenticated");
-    }
-
-    const userId = identity.subject;
+    const userId = await validateUser(ctx);
 
     const document = await ctx.db.insert("documents", {
       title: args.title,
@@ -78,13 +60,7 @@ export const getSidebar = query({
     parentDocument: v.optional(v.id("documents")),
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-
-    if (!identity) {
-      throw new Error("Not Authenticated");
-    }
-
-    const userId = identity.subject;
+    const userId = await validateUser(ctx);
     const documents = await ctx.db
       .query("documents")
       .withIndex("by_user_parent", (q) =>
@@ -100,13 +76,7 @@ export const getSidebar = query({
 
 export const getTrash = query({
   handler: async(ctx) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
-      throw new Error("Not authenticated");
-    }
-
-    const userId = identity.subject;
-
+    const userId = await validateUser(ctx);
     const documents = await ctx.db
       .query("documents")
       .withIndex("by_user", (q) => q.eq("userId", userId))
@@ -122,22 +92,7 @@ export const getTrash = query({
 export const restore = mutation({
   args: { id: v.id("documents") },
   handler: async(ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
-      throw new Error("Not authenticated");
-    }
-
-    const userId = identity.subject;
-
-    const existingDocument = await ctx.db.get(args.id);
-
-    if(!existingDocument) {
-      throw new Error("Not found");
-    }
-
-    if (existingDocument.userId !== userId) {
-      throw new Error("Unauthorized");
-    }
+    const userId = await validateUserAndDocument(ctx, args);
 
     const recursiveRestore = async (documentId: Id<"documents">) => {
       const children = await ctx.db
@@ -179,22 +134,8 @@ export const restore = mutation({
 export const remove = mutation({
   args: { id: v.id("documents") },
   handler: async(ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
-      throw new Error("Not authenticated");
-    }
-
-    const userId = identity.subject;
-
-    const existingDocument = await ctx.db.get(args.id);
-
-    if(!existingDocument) {
-      throw new Error("Not found");
-    }
-
-    if (existingDocument.userId !== userId) {
-      throw new Error("Unautorized");
-    }
+    // Might add userId in the future if needed
+    const _ = await validateUserAndDocument(ctx, args);
 
     const document = await ctx.db.delete(args.id);
 
