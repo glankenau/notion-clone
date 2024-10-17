@@ -10,7 +10,7 @@ import {
 export const archive = mutation({
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
-    const { userId,  } = await validateUserAndDocument(ctx, args);
+    const { userId } = await validateUserAndDocument(ctx, args);
 
     const recursiveArchive = async (documentId: Id<"documents">) => {
       const children = await ctx.db
@@ -152,11 +152,9 @@ export const getSearch = query({
     const documents = await ctx.db
       .query("documents")
       .withIndex("by_user")
-      .filter((q) =>
-        q.eq(q.field("isArchived"), false),
-      )
+      .filter((q) => q.eq(q.field("isArchived"), false))
       .order("desc")
-      .collect()
+      .collect();
     return documents;
-  }
-})
+  },
+});

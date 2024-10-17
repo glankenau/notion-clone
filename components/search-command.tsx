@@ -11,7 +11,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList
+  CommandList,
 } from "@/components/ui/command";
 
 import { useSearch } from "@/hooks/use-search";
@@ -32,30 +32,29 @@ export const SearchCommand = () => {
   }, []);
 
   useEffect(() => {
-    const down = ( e: KeyboardEvent) => {
-      if (e.key ==="k" && (e.metaKey || e.ctrlKey)) {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         toggle();
       }
-    }
+    };
     document.addEventListener("keydown", down);
 
     return () => document.removeEventListener("keydown", down);
-  }, [toggle])
+  }, [toggle]);
 
-  const onSelect = (id: string) =>{
+  const onSelect = (id: string) => {
     router.push(`/documents/${id}`);
     onClose();
   };
 
-  if(!isMounted) {
+  if (!isMounted) {
     return null;
   }
 
   return (
     <CommandDialog open={isOpen} onOpenChange={onClose}>
-      <CommandInput
-        placeholder={`Search ${user?.fullName}'s Jotion`}/>
+      <CommandInput placeholder={`Search ${user?.fullName}'s Jotion`} />
 
       <CommandList>
         <CommandEmpty>No results found</CommandEmpty>
@@ -67,19 +66,15 @@ export const SearchCommand = () => {
               onSelect={onSelect}
             >
               {document.icon ? (
-                <p className="mr-2 text-[18px]">
-                  {document.icon}
-                </p>
+                <p className="mr-2 text-[18px]">{document.icon}</p>
               ) : (
-                <File className="mr-2 h-4 w-4"/>
+                <File className="mr-2 h-4 w-4" />
               )}
-              <span>
-                {document.title}
-              </span>
+              <span>{document.title}</span>
             </CommandItem>
           ))}
         </CommandGroup>
       </CommandList>
     </CommandDialog>
-  )
-}
+  );
+};
