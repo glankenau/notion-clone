@@ -144,3 +144,19 @@ export const remove = mutation({
     return document;
   },
 });
+
+export const getSearch = query({
+  handler: async (ctx) => {
+    const userId = await validateUser(ctx);
+
+    const documents = await ctx.db
+      .query("documents")
+      .withIndex("by_user")
+      .filter((q) =>
+        q.eq(q.field("isArchived"), false),
+      )
+      .order("desc")
+      .collect()
+    return documents;
+  }
+})
