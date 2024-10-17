@@ -1,5 +1,5 @@
-"use client"
-import Image  from "next/image";
+"use client";
+import Image from "next/image";
 import { useUser } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
 import { PlusCircleIcon } from "lucide-react";
@@ -12,15 +12,15 @@ const DocumentsPage = () => {
   const create = useMutation(api.documents.create);
 
   const onCreate = () => {
-    const promise = create({title: "Untitled"});
+    const promise = create({ title: "Untitled" });
     toast.promise(promise, {
       loading: "Creating a new note",
       success: "New note created",
-      error: "Failed to create a new note"
-    })
-  }
+      error: "Failed to create a new note",
+    });
+  };
 
-  return ( 
+  return (
     <div className="h-full flex flex-col items-center justify-center space-y-4">
       <Image
         src="/empty.png"
@@ -40,11 +40,11 @@ const DocumentsPage = () => {
         Welcome to {user?.firstName}&apos;s Jotion
       </h2>
       <Button onClick={onCreate}>
-        <PlusCircleIcon className="h-4 w-4 mr-2"/>
+        <PlusCircleIcon className="h-4 w-4 mr-2" />
         Create a note
       </Button>
     </div>
-   );
-}
- 
+  );
+};
+
 export default DocumentsPage;
