@@ -5,6 +5,7 @@ import "./globals.css";
 import { ConvexReactClientProvider } from "@/components/providers/convex-prider";
 import { Toaster } from "sonner";
 import { ModalProvider } from "@/components/providers/modal-provider";
+import { EdgeStoreProvider } from "@/lib/edgestore";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -47,17 +48,19 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ConvexReactClientProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-            storageKey="jotion-theme"
-          >
-            <Toaster position="bottom-center" />
-            <ModalProvider />
-            {children}
-          </ThemeProvider>
+          <EdgeStoreProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+              storageKey="jotion-theme"
+            >
+              <Toaster position="bottom-center" />
+              <ModalProvider />
+              {children}
+            </ThemeProvider>
+          </EdgeStoreProvider>
         </ConvexReactClientProvider>
       </body>
     </html>

@@ -216,3 +216,41 @@ export const update = mutation({
     return document;
   },
 });
+
+export const removeIcon = mutation({
+  args: {
+    id: v.id("documents"),
+  },
+  handler: async (ctx, args) => {
+    const { userId, existingDocument } = await validateUserAndDocument(
+      ctx,
+      args,
+    );
+
+    if (!existingDocument) {
+      throw new Error("Not found");
+    }
+
+    const document = await ctx.db.patch(args.id, {
+      icon: undefined,
+    });
+
+    return document;
+  },
+});
+
+export const removeCoverImage = mutation({
+  args: { id: v.id("documents")},
+  handler: async (ctx, args) => {
+    const { userId, existingDocument } = await validateUserAndDocument(
+      ctx,
+      args,
+    );
+
+    const document = await ctx.db.patch(args.id, {
+      coverImage: undefined,
+    });
+
+    return document
+  }
+});
