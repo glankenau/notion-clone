@@ -7,7 +7,7 @@ import { Icon, Image, ImageIcon, Smile, X } from "lucide-react";
 import { ElementRef, useRef, useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import TextareaAutosize  from "react-textarea-autosize";
+import TextareaAutosize from "react-textarea-autosize";
 import { useCoverImage } from "@/hooks/use-cover-image";
 
 interface ToolbarProps {
@@ -43,9 +43,7 @@ export const Toolbar = ({ initialData, preview }: ToolbarProps) => {
     });
   };
 
-  const onKeyDown = (
-    event: React.KeyboardEvent<HTMLTextAreaElement>
-  ) => {
+  const onKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();
       disableInput();
@@ -56,14 +54,14 @@ export const Toolbar = ({ initialData, preview }: ToolbarProps) => {
     update({
       id: initialData._id,
       icon,
-    })
-  }
+    });
+  };
 
   const onRemoveIcon = () => {
     removeIcon({
-      id: initialData._id
+      id: initialData._id,
     });
-  }
+  };
   return (
     <div className="pl-[54px] group relative">
       {!!initialData.icon && !preview && (
@@ -117,7 +115,7 @@ export const Toolbar = ({ initialData, preview }: ToolbarProps) => {
         )}
       </div>
       {isEditing && !preview ? (
-        <TextareaAutosize 
+        <TextareaAutosize
           ref={inputRef}
           onBlur={disableInput}
           onKeyDown={onKeyDown}
@@ -127,13 +125,13 @@ export const Toolbar = ({ initialData, preview }: ToolbarProps) => {
           outline-none text-[#3F3F3F] dark:text-[#CFCFCF] resize-none"
         />
       ) : (
-          <div
-            onClick={enableInput}
-            className="pb-[11.5px] text-5xl font-bold break-words
+        <div
+          onClick={enableInput}
+          className="pb-[11.5px] text-5xl font-bold break-words
             outline-none text-[#3F3F3F] dark:text-[#CFCFCF]"
-          >
-            {initialData.title}
-          </div>
+        >
+          {initialData.title}
+        </div>
       )}
     </div>
   );
