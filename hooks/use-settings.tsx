@@ -6,8 +6,8 @@ type SettingsStore = {
   onClose: () => void;
 };
 
-export const useSettings = create<SettingsStore> ((set) => ({
+export const useSettings = create<SettingsStore>((set) => ({
   isOpen: false,
-  onOpen: () => set({ isOpen: true}),
-  onClose: () => set({ isOpen: false}),
+  onOpen: () => set({ isOpen: true }),
+  onClose: () => set({ isOpen: false }),
 }));

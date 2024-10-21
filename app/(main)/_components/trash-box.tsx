@@ -26,7 +26,7 @@ export const TrashBox = () => {
 
   const onClick = (documentId: string) => {
     router.push(`/documents/${documentId}`);
-  }
+  };
 
   const onRestore = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -38,7 +38,7 @@ export const TrashBox = () => {
     toast.promise(promise, {
       loading: "Restoring note...",
       success: "Note restored!",
-      error:" Failed to restore note."
+      error: " Failed to restore note.",
     });
   };
 
@@ -56,18 +56,18 @@ export const TrashBox = () => {
     }
   };
 
-  if(documents === undefined) {
-    return(
+  if (documents === undefined) {
+    return (
       <div className="h-full flex items-center justify-center p-4">
-        <Spinner size="lg"/>
+        <Spinner size="lg" />
       </div>
-    )
+    );
   }
 
-  return(
+  return (
     <div className="text-sm">
       <div className="flex items-center gap-x-1 p-2">
-        <Search className="h-4 w-4"/>
+        <Search className="h-4 w-4" />
         <Input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -87,26 +87,23 @@ export const TrashBox = () => {
             className="text-sm rounded-sm w-full hover:bg-primary/5
             flex items-center text-primary justify-between"
           >
-            <span className="truncate pl-2">
-              {document.title}
-            </span>
+            <span className="truncate pl-2">{document.title}</span>
             <div className="flex item-center">
               <div
                 onClick={(e) => onRestore(e, document._id)}
                 role="button"
                 className="rounded-sm p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600"
               >
-                <Undo className="h-4 w-4 text-muted-foreground"/>
+                <Undo className="h-4 w-4 text-muted-foreground" />
               </div>
               <ConfirmModal onConfirm={() => onRemove(document._id)}>
                 <div
                   role="button"
                   className="rounded-sm p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600"
                 >
-                  <Trash className="h-4 w-4 text-muted-foreground"/>
+                  <Trash className="h-4 w-4 text-muted-foreground" />
                 </div>
               </ConfirmModal>
-
             </div>
           </div>
         ))}

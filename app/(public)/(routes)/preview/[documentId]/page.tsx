@@ -9,7 +9,6 @@ import { Toolbar } from "@/components/toolbar";
 import { Cover } from "@/components/cover";
 import { Skeleton } from "@/components/ui/skeleton";
 
-
 interface DocumentIdPageProps {
   params: {
     documentId: Id<"documents">;
@@ -17,7 +16,10 @@ interface DocumentIdPageProps {
 }
 
 const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
-  const Editor = useMemo(() => dynamic(() => import("@/components/editor"), { ssr: false }), [])
+  const Editor = useMemo(
+    () => dynamic(() => import("@/components/editor"), { ssr: false }),
+    [],
+  );
 
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId,
@@ -28,7 +30,7 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
   const onChange = (content: string) => {
     update({
       id: params.documentId,
-      content
+      content,
     });
   };
 
