@@ -3,7 +3,6 @@
 import { cn } from "@/lib/utils";
 import {
   ChevronsLeft,
-  icons,
   MenuIcon,
   Plus,
   PlusCircle,

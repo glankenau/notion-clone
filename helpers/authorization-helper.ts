@@ -1,33 +1,35 @@
+// @ts-nocheck
 export async function validateUserAndDocument(ctx, args) {
-  // Authentication
-  const identity = await ctx.auth.getUserIdentity();
-  if (!identity) {
-    throw new Error("Not authenticated");
-  }
+    // Authentication
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+        throw new Error("Not authenticated");
+    }
 
-  const userId = identity.subject;
+    const userId = identity.subject;
 
-  // Fetch the document
-  const existingDocument = await ctx.db.get(args.id);
-  if (!existingDocument) {
-    throw new Error("Not found");
-  }
+    // Fetch the document
+    const existingDocument = await ctx.db.get(args.id);
+    if (!existingDocument) {
+        throw new Error("Not found");
+    }
 
-  // Authorization
-  if (existingDocument.userId !== userId) {
-    throw new Error("Unauthorized");
-  }
+    // Authorization
+    if (existingDocument.userId !== userId) {
+        throw new Error("Unauthorized");
+    }
 
-  return { userId, existingDocument };
+    return { userId, existingDocument };
 }
 
+// @ts-nocheck
 export async function validateUser(ctx) {
-  const identity = await ctx.auth.getUserIdentity();
-  if (!identity) {
-    throw new Error("Not authenticated");
-  }
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+        throw new Error("Not authenticated");
+    }
 
-  const userId = identity.subject;
+    const userId = identity.subject;
 
-  return userId;
+    return userId;
 }

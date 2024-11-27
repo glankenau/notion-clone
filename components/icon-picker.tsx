@@ -9,7 +9,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import React from "react";
-import { EmojiProperties } from "emoji-picker-react/dist/dataUtils/DataTypes";
 
 interface IconPickerProps {
   onChange: (icon: string) => void;
